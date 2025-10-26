@@ -1,12 +1,13 @@
 {
-  "name": "cose-js",
-  "version": "0.8.3",
-  "description": "JavaScript COSE implementation",
+  "name": "nodeless-cose-js",
+  "version": "0.1.0",
+  "description": "Runtime-agnostic JavaScript COSE implementation",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf coverage/ .nyc_output/",
     "pretest": "semistandard --fix",
-    "test": "pwd & ava ./test/*.js",
+    "test": "pwd & ava ./test/*.js --match '!*test-helpers*'",
+    "test:babel": "npx babel-node node_modules/.bin/ava test/sign1-tests.js",
     "coverage": "nyc npm test",
     "coveragehtml": "nyc report -r html",
     "precoveragehtml": "npm run coverage",
@@ -17,41 +18,53 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erdtman/COSE-JS.git"
+    "url": "git+https://github.com/mikekelly/nodeless-cose-js.git"
   },
   "keywords": [
     "COSE",
     "Signing",
-    "MAC",
-    "Encrypt",
-    "IoT"
+    "CBOR",
+    "Cryptography",
+    "Runtime-agnostic",
+    "React-Native",
+    "Web",
+    "ES256",
+    "ES384",
+    "ES512"
   ],
   "author": "Samuel Erdtman",
   "contributors": [
     {
-      "name": "Joe Hildebrand",
-      "email": "joe-github@cursive.net"
+      "name": "Mike Kelly",
+      "email": "mikekelly321@gmail.com"
     }
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/erdtman/cose-js/issues"
+    "url": "https://github.com/mikekelly/nodeless-cose-js/issues"
   },
-  "homepage": "https://github.com/erdtman/cose-js#readme",
+  "homepage": "https://github.com/mikekelly/nodeless-cose-js#readme",
   "dependencies": {
-    "aes-cbc-mac": "^1.0.1",
-    "any-promise": "^1.3.0",
-    "cbor": "^8.1.0",
-    "elliptic": "^6.4.0",
-    "node-hkdf-sync": "^1.0.0",
-    "node-rsa": "^1.1.1"
+    "@noble/curves": "^2.0.1",
+    "@noble/hashes": "^2.0.1",
+    "cbor-x": "^1.6.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.5",
+    "@babel/node": "^7.28.0",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/register": "^7.28.3",
+    "@babel/runtime": "^7.28.4",
+    "@react-native/babel-preset": "^0.82.1",
     "ava": "^3.15.0",
     "base64url": "^3.0.1",
+    "bn.js": "^4.11.8",
+    "elliptic": "^6.5.4",
     "jsonfile": "^2.4.0",
     "jwk-to-pem": "^2.0.5",
     "live-server": "*",
+    "metro-react-native-babel-preset": "^0.77.0",
     "npm-run-all": "*",
     "nyc": "^15.1.0",
     "semistandard": "^16.0.1",

@@ -1,0 +1,31 @@
+# Test files
+test/
+coverage/
+.nyc_output/
+
+# Documentation source (publish only README.md)
+docs/
+
+# Example files (optional - remove if you want to publish examples)
+examples/
+
+# Development files
+tmp/
+.vscode/
+.DS_Store
+*.log
+
+# Git files
+.git/
+.gitignore
+.gitmodules
+
+# Development dependencies
+babel.config.js
+test-babel.js
+
+# CI/CD
+.github/
+.travis.yml
+.circleci/
+
