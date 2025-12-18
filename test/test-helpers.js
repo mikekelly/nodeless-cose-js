@@ -92,10 +92,13 @@ function createFixtureSigner (fixtureKey, algorithm) {
   const privateKey = fixturePrivateKeyToNoble(fixtureKey);
 
   return {
-    // Noble's default interface: sign(message) - hashes and signs
+    // Signer interface: sign(message) - hashes and signs
     sign: async (message) => {
-      // Use noble's default behavior (prehash: true, hashes the message)
-      return curve.sign(message, privateKey);
+      // Noble's default is prehash: false (assumes message is already hashed)
+      // We need prehash: true to hash ToBeSigned before signing (COSE standard)
+      const sig = curve.sign(message, privateKey, { prehash: true });
+      // For @noble/curves v2.x, sig is an object - extract compact bytes
+      return sig.toCompactRawBytes ? sig.toCompactRawBytes() : sig;
     }
   };
 }
@@ -128,10 +131,12 @@ function createFixtureVerifier (fixtureKey, algorithm) {
   const publicKey = fixturePublicKeyToNoble(fixtureKey);
 
   return {
-    // Noble's default interface: verify(signature, message) - hashes and verifies
+    // Verifier interface: verify(signature, message) - hashes and verifies
     verify: async (signature, message) => {
-      // Use noble's default behavior (prehash: true, hashes the message)
-      return curve.verify(signature, message, publicKey);
+      // Noble's default is prehash: false (assumes message is already hashed)
+      // We need prehash: true to hash ToBeSigned before verifying (COSE standard)
+      // lowS: false to accept high-S signatures from iOS Secure Enclave
+      return curve.verify(signature, message, publicKey, { prehash: true, lowS: false });
     }
   };
 }
